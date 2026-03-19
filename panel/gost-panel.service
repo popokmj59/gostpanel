@@ -1,0 +1,18 @@
+[Unit]
+Description=GOST Web Management Panel
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/gost-panel
+ExecStart=/opt/gost-panel/venv/bin/python -m flask run --host=0.0.0.0 --port=5000
+Restart=always
+RestartSec=5
+Environment=FLASK_APP=app.py
+# 可选：设置面板登录账号密码
+# Environment=GOST_PANEL_USER=admin
+# Environment=GOST_PANEL_PASS=your_password
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOST 管理面板</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>GOST 转发管理</h1>
+      <div class="header-actions">
+        <span class="status-badge" id="statusBadge">检测中...</span>
+        <button type="button" class="btn btn-primary" id="btnRestart">重启服务</button>
+        <button type="button" class="btn btn-success" id="btnAdd">+ 新增规则</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="login-box" id="loginBox">
+        <h2>登录</h2>
+        <form id="loginForm">
+          <input type="text" id="loginUser" placeholder="用户名" required>
+          <input type="password" id="loginPass" placeholder="密码" required>
+          <button type="submit" class="btn btn-primary btn-block">登录</button>
+        </form>
+      </div>
+
+      <div class="content" id="content" style="display:none;">
+        <div class="rules-card">
+          <h2>转发规则列表</h2>
+          <div class="table-wrap">
+            <table class="rules-table">
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>类型</th>
+                  <th>本地端口</th>
+                  <th>目标地址</th>
+                  <th>目标端口/参数</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="rulesBody">
+                <tr><td colspan="6" class="empty">加载中...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 新增/编辑 弹窗 -->
+  <div class="modal" id="ruleModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">新增规则</h3>
+        <button type="button" class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <form id="ruleForm">
+        <input type="hidden" id="ruleId">
+        <div class="form-group">
+          <label>协议类型</label>
+          <select id="ruleType" required>
+            <optgroup label="转发">
+              <option value="nonencrypt">不加密转发</option>
+            </optgroup>
+            <optgroup label="加密隧道(中转)">
+              <option value="encrypttls">TLS隧道</option>
+              <option value="encryptws">WS隧道</option>
+              <option value="encryptwss">WSS隧道</option>
+            </optgroup>
+            <optgroup label="解密(落地)">
+              <option value="decrypttls">TLS解密</option>
+              <option value="decryptws">WS解密</option>
+              <option value="decryptwss">WSS解密</option>
+            </optgroup>
+            <optgroup label="均衡负载">
+              <option value="peerno">不加密均衡负载</option>
+              <option value="peertls">TLS均衡负载</option>
+              <option value="peerws">WS均衡负载</option>
+              <option value="peerwss">WSS均衡负载</option>
+            </optgroup>
+            <optgroup label="CDN">
+              <option value="cdnno">不加密CDN</option>
+              <option value="cdnws">WS隧道CDN</option>
+              <option value="cdnwss">WSS隧道CDN</option>
+            </optgroup>
+            <optgroup label="代理">
+              <option value="ss">Shadowsocks</option>
+              <option value="socks">SOCKS5</option>
+              <option value="http">HTTP代理</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group" id="fgSourcePort">
+          <label id="labelSourcePort">本地端口</label>
+          <input type="text" id="ruleSourcePort" placeholder="如 8080" required>
+        </div>
+        <div class="form-group" id="fgDestAddr">
+          <label id="labelDestAddr">目标地址</label>
+          <input type="text" id="ruleDestAddr" placeholder="IP 或域名">
+        </div>
+        <div class="form-group" id="fgDestPort">
+          <label id="labelDestPort">目标端口/参数</label>
+          <input type="text" id="ruleDestPort" placeholder="如 443 或 round/random/fifo">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="btnCancel">取消</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 删除确认弹窗 -->
+  <div class="modal" id="deleteModal">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <h3>确认删除</h3>
+        <button type="button" class="modal-close" id="deleteModalClose">&times;</button>
+      </div>
+      <p>确定要删除该规则吗？</p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="btnDeleteCancel">取消</button>
+        <button type="button" class="btn btn-danger" id="btnDeleteConfirm">删除</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
