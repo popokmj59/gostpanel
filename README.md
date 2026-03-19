@@ -1,7 +1,7 @@
 # gostpanel
 gost转发带可视面板
 
-根据https://github.com/KANIKIG/Multi-EasyGost/ 二开加了个可视面板，.已安装的下载panel目录 以及gost.sh文件上传到root目录覆盖 然后输入/gost.sh 选择12进行安装面板即可。第一次安装则选择1安装gost 再次输入/gost.sh 选择12进行安装面板即可。 
+根据https://github.com/KANIKIG/Multi-EasyGost/ 二开加了个可视面板，.已安装的下载panel目录 以及gost.sh文件上传到root目录覆盖 然后输入/gost.sh 选择12进行安装面板即可。第一次安装则选择1安装gost即可，会自动安装面板。 
 帮助文档见原https://github.com/KANIKIG/Multi-EasyGost/ 项目 程序一致 只是加多了个网页版本的可视控制台。
 
 一键安装命令 wget --no-check-certificate -O install.sh https://raw.githubusercontent.com/popokmj59/gostpanel/main/install.sh && chmod +x install.sh && bash install.sh
