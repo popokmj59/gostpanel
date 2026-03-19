@@ -13,7 +13,7 @@ Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 
 [[ $EUID -ne 0 ]] && echo -e "${Error} 请使用 root 运行此脚本" && exit 1
 
-INSTALL_DIR="/root/gostpanel"
+INSTALL_DIR="/root"
 cd /tmp
 rm -rf gostpanel-install
 mkdir -p gostpanel-install
@@ -47,11 +47,13 @@ else
     fi
 fi
 
-# 复制到安装目录并运行
-mkdir -p "$INSTALL_DIR"
-cp -r . "$INSTALL_DIR/"
+# 复制到 /root 目录，gost.sh 和 panel 在 root 下，登录后直接 ./gost.sh 即可
+cp -f gost.sh "$INSTALL_DIR/"
+cp -rf panel "$INSTALL_DIR/"
+[ -f config.json ] && cp -f config.json "$INSTALL_DIR/"
+[ -f gost.service ] && cp -f gost.service "$INSTALL_DIR/"
 cd "$INSTALL_DIR"
 chmod +x gost.sh
-echo -e "${Info} 项目已下载到 $INSTALL_DIR"
+echo -e "${Info} 已安装到 $INSTALL_DIR，之后登录服务器直接输入 ${Green_font_prefix}./gost.sh${Font_color_suffix} 即可"
 echo -e "${Info} 启动安装脚本..."
 ./gost.sh
